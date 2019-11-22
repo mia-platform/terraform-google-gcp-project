@@ -38,3 +38,8 @@ output "service_account_email" {
   value       = module.gcp_project.service_account_email
   description = "The unique ID of the default service account"
 }
+
+output "labels" {
+  value       = module.gcp_project.labels
+  description = "Labels applied to the project"
+}

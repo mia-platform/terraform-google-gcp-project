@@ -33,3 +33,8 @@ output "service_account_id" {
   value       = google_service_account.service_account.name
   description = "The unique id of the default service account"
 }
+
+output "labels" {
+  value       = google_project.project.labels
+  description = "Labels applied to the project"
+}
