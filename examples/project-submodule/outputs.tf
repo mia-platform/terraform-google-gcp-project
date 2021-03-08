@@ -34,12 +34,7 @@ output "service_account_id" {
   description = "The unique id of the default service account"
 }
 
-output "activated_apis" {
-  value       = module.submodule_project.activated_apis
-  description = "The APIs activated on the project"
-}
-
-output "total_activated_apis" {
-  value       = module.submodule_project.total_activated_apis
-  description = "The total amount of enabled APIs"
+output "labels" {
+  value = module.submodule_project.labels
+  description = "Labels applied to the project"
 }
