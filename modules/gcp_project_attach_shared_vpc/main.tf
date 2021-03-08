@@ -150,3 +150,17 @@ resource "google_project_iam_member" "gke_host_agent_to_shared_vpc_project" {
     var.project_id
   ]
 }
+
+# This role is required for allowing the automatic creation of load balancing resources by the
+# Ingress and LoadBalancer Service Kubernetes resources
+resource "google_project_iam_member" "gke_security_admin_to_shared_vpc_project" {
+  count   = local.enable_gke_sa_role ? 1 : 0
+  project = var.shared_vpc_project_id
+  role    = "roles/compute.securityAdmin"
+  member  = local.gke_service_account
+
+  # HACK! Force the dependencies on this value because modules can not set their depends_on
+  depends_on = [
+    var.project_id
+  ]
+}
