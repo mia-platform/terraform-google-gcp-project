@@ -35,6 +35,6 @@ output "service_account_id" {
 }
 
 output "labels" {
-  value = module.submodule_project.labels
+  value       = module.submodule_project.labels
   description = "Labels applied to the project"
 }

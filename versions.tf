@@ -14,20 +14,18 @@
   limitations under the License.
 */
 
-provider "google" {
-  credentials = file(var.credentials_path)
-}
+terraform {
+  required_version = ">= 0.14"
 
-provider "random" {}
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = ">= 3.57, < 4.0"
+    }
 
-module "submodule_project" {
-  source          = "../../modules/gcp_project"
-  name            = "submodule-project"
-  organization_id = var.organization_id
-  billing_account = var.billing_account
-
-  labels = {
-    configuration = "full"
-    terraform     = "true"
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 3"
+    }
   }
 }

@@ -16,17 +16,9 @@
 
 provider "google" {
   credentials = file(var.credentials_path)
-  version     = "~> 2.20"
 }
 
-provider "google-beta" {
-  credentials = file(var.credentials_path)
-  version     = "~> 2.20"
-}
-
-provider "random" {
-  version = "~> 2"
-}
+provider "random" {}
 
 module "minimal_project" {
   source          = "../../"

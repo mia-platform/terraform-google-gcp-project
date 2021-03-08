@@ -16,24 +16,10 @@
 
 provider "google" {
   credentials = file(var.credentials_path)
-  version     = "~> 2.20"
-}
-
-provider "google-beta" {
-  credentials = file(var.credentials_path)
-  version     = "~> 2.20"
-}
-
-locals {
-  enable_gke_user = contains(data.google_project_services.project_active_services, "containers.googleapis.com")
 }
 
 data "google_project" "gcp_project" {
   project_id = var.project_id
-}
-
-data "google_project_services" "project_active_services" {
-  project = var.project_id
 }
 
 data "google_compute_network" "vpc-shared-network" {
@@ -46,7 +32,7 @@ module "attach_shared_vpc" {
   project_id                             = data.google_project.gcp_project.project_id
   project_number                         = data.google_project.gcp_project.number
   project_controlling_service_account_id = var.project_service_account
-  enable_gke_user                        = local.enable_gke_user
+  enable_gke_user                        = false
 
   shared_vpc_project_id  = data.google_compute_network.vpc-shared-network.project
   shared_vpc_subnets_ids = data.google_compute_network.vpc-shared-network.subnetworks_self_links

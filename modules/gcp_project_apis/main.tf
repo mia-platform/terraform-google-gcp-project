@@ -14,13 +14,6 @@
   limitations under the License.
 */
 
-terraform {
-  required_version = ">= 0.12"
-  required_providers {
-    google = "~> 2.20"
-  }
-}
-
 locals {
   uniqued_apis = toset(var.activate_apis)
   enabled_apis = [for service in google_project_service.gcp_project_apis : service.service]

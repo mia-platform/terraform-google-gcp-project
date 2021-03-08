@@ -14,14 +14,6 @@
   limitations under the License.
 */
 
-terraform {
-  required_version = ">= 0.12"
-  required_providers {
-    google      = "~> 2.20"
-    google-beta = "~> 2.20"
-  }
-}
-
 locals {
   contains_container_api = contains(var.activate_apis, "container.googleapis.com")
 }
@@ -46,10 +38,14 @@ module "gcp_project_apis" {
 module "gcp_project_attach_shared_vpc" {
   source = "./modules/gcp_project_attach_shared_vpc"
 
-  project_id                             = module.gcp_project_apis.project_id
+  project_id                             = module.gcp_project.project_id
   project_number                         = module.gcp_project.project_number
   shared_vpc_project_id                  = var.shared_vpc_project_id
   shared_vpc_subnets_ids                 = var.shared_vpc_subnets_ids
   enable_gke_user                        = local.contains_container_api
   project_controlling_service_account_id = "serviceAccount:${module.gcp_project.service_account_email}"
+
+  depends_on = [
+    module.gcp_project_apis
+  ]
 }

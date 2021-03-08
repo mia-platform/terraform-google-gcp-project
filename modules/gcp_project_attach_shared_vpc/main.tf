@@ -14,14 +14,6 @@
   limitations under the License.
 */
 
-terraform {
-  required_version = ">= 0.12"
-  required_providers {
-    google      = "~> 2.20"
-    google-beta = "~> 2.20"
-  }
-}
-
 locals {
   enable_module = var.shared_vpc_project_id != ""
   google_api_service_account = format(
@@ -57,16 +49,10 @@ resource "google_project_iam_member" "service_accounts_vpc_membership" {
   project = var.shared_vpc_project_id
   role    = "roles/compute.networkUser"
   member  = element(local.vpc_users, count.index)
-
-  # HACK! Force the dependencies on this value because modules can not set their depends_on
-  depends_on = [
-    var.project_id
-  ]
 }
 
 resource "google_compute_subnetwork_iam_member" "google_api_service_account_role_to_vpc_subnets" {
-  provider = google-beta
-  count    = local.enable_module && local.enable_subnetwork_roles ? local.total_subnet_ids : 0
+  count = local.enable_module && local.enable_subnetwork_roles ? local.total_subnet_ids : 0
 
   subnetwork = element(
     split("/", local.uniqued_subnet_ids[count.index]),
@@ -82,16 +68,10 @@ resource "google_compute_subnetwork_iam_member" "google_api_service_account_role
   )
   project = var.shared_vpc_project_id
   member  = local.google_api_service_account
-
-  # HACK! Force the dependencies on this value because modules can not set their depends_on
-  depends_on = [
-    var.project_id
-  ]
 }
 
 resource "google_compute_subnetwork_iam_member" "controlling_service_account_role_to_vpc_subnets" {
-  provider = google-beta
-  count    = local.enable_module && local.enable_subnetwork_roles ? local.total_subnet_ids : 0
+  count = local.enable_module && local.enable_subnetwork_roles ? local.total_subnet_ids : 0
 
   subnetwork = element(
     split("/", local.uniqued_subnet_ids[count.index]),
@@ -107,16 +87,10 @@ resource "google_compute_subnetwork_iam_member" "controlling_service_account_rol
   )
   project = var.shared_vpc_project_id
   member  = var.project_controlling_service_account_id
-
-  # HACK! Force the dependencies on this value because modules can not set their depends_on
-  depends_on = [
-    var.project_id
-  ]
 }
 
 resource "google_compute_subnetwork_iam_member" "gke_service_account_role_to_vpc_subnets" {
-  provider = google-beta
-  count    = local.enable_gke_sa_role && local.enable_subnetwork_roles ? local.total_subnet_ids : 0
+  count = local.enable_gke_sa_role && local.enable_subnetwork_roles ? local.total_subnet_ids : 0
 
   subnetwork = element(
     split("/", local.uniqued_subnet_ids[count.index]),
@@ -132,11 +106,6 @@ resource "google_compute_subnetwork_iam_member" "gke_service_account_role_to_vpc
   )
   project = var.shared_vpc_project_id
   member  = local.gke_service_account
-
-  # HACK! Force the dependencies on this value because modules can not set their depends_on
-  depends_on = [
-    var.project_id
-  ]
 }
 
 resource "google_project_iam_member" "gke_host_agent_to_shared_vpc_project" {
@@ -144,11 +113,6 @@ resource "google_project_iam_member" "gke_host_agent_to_shared_vpc_project" {
   project = var.shared_vpc_project_id
   role    = "roles/container.hostServiceAgentUser"
   member  = local.gke_service_account
-
-  # HACK! Force the dependencies on this value because modules can not set their depends_on
-  depends_on = [
-    var.project_id
-  ]
 }
 
 # This role is required for allowing the automatic creation of load balancing resources by the
@@ -158,9 +122,4 @@ resource "google_project_iam_member" "gke_security_admin_to_shared_vpc_project" 
   project = var.shared_vpc_project_id
   role    = "roles/compute.securityAdmin"
   member  = local.gke_service_account
-
-  # HACK! Force the dependencies on this value because modules can not set their depends_on
-  depends_on = [
-    var.project_id
-  ]
 }

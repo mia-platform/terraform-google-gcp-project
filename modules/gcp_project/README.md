@@ -4,15 +4,15 @@ A Terraform module for creating a GCP project with opinionated options.
 
 ## Compatibility
 
-This module is meant for use with Terraform 0.12.
+This module is meant for use with Terraform 0.14.
 
 ## Requirements
 
 ### Software
 
-- [Terraform][terraform] >= 0.12.6
-- [terraform-provider-google][provider-google] plugin 2.20.x
-- [terraform-provider-random][provider-random] plugin 2.2.x
+- [Terraform][terraform] >= 0.14.0
+- [terraform-provider-google][provider-google] plugin 3.57.x
+- [terraform-provider-random][provider-random] plugin 3.1.x
 
 ### Permissions
 

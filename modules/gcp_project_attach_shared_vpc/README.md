@@ -4,15 +4,14 @@ A Terraform module for attaching a Shared VPC to a GCP project with opinionated 
 
 ## Compatibility
 
-This module is meant for use with Terraform 0.12.
+This module is meant for use with Terraform 0.14.
 
 ## Requirements
 
 ### Software
 
-- [Terraform][terraform] >= 0.12.6
-- [terraform-provider-google][provider-google] plugin 2.20.x
-- [terraform-provider-google-beta][provider-google-beta] plugin 2.20.x
+- [Terraform][terraform] >= 0.14.0
+- [terraform-provider-google][provider-google] plugin 3.57.x
 
 ### Permissions
 
@@ -42,5 +41,4 @@ This project is licensed under the Apache License 2.0 - see the
 
 [terraform]: https://www.terraform.io/downloads.html
 [provider-google]: https://github.com/terraform-providers/terraform-provider-google
-[provider-google-beta]: https://github.com/terraform-providers/terraform-provider-google-beta
 [semver]: http://semver.org/

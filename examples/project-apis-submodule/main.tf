@@ -16,7 +16,6 @@
 
 provider "google" {
   credentials = file(var.credentials_path)
-  version     = "~> 2.20"
 }
 
 data "google_project" "gcp_project" {
