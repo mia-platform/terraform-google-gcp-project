@@ -23,8 +23,8 @@ resource "random_id" "random_project_suffix" {
 
 locals {
   project_id = "${random_id.random_project_suffix.keepers.name}-${random_id.random_project_suffix.hex}"
-  org_id     = var.folder_id == "" ? var.organization_id : ""
-  folder_id  = var.folder_id != "" ? var.folder_id : ""
+  org_id     = var.folder_id == "" ? var.organization_id : null
+  folder_id  = var.folder_id != "" ? var.folder_id : null
 }
 
 resource "google_project" "project" {
